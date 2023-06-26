@@ -30,6 +30,25 @@ class LinkedList:
             last_node = last_node.next
         last_node.next = new_node
 
+    def count_occurences_iterative(self, key: any) -> None:
+        cur = self.head
+        occurrences = 0
+
+        while cur:
+            if cur.data == key:
+                occurrences += 1
+            cur = cur.next
+
+        return occurrences
+
+    def count_occurences_recursive(self, node: Node, key: any) -> None:
+        if not node:
+            return 0
+        if node.data == key:
+            return 1 + self.count_occurences_recursive(node.next, key)
+        else:
+            return self.count_occurences_recursive(node.next, key)
+
     def delete_node(self, key: any) -> None:
 
         current_node = self.head
@@ -82,9 +101,67 @@ class LinkedList:
             return 0
         return 1 + self.length(node.next)
 
+    def merge_sorted(self, llist):
+        p = self.head
+        q = llist.head
+        s = None
+
+        if not p:
+            return q
+        if not q:
+            return p
+
+        if p and q:
+            if p.data <= q.data:
+                s = p
+                p = s.next
+            else:
+                s = q
+                q = s.next
+            new_head = s
+
+        while p and q:
+            if p.data <= q.data:
+                s.next = p
+                s = p
+                p = s.next
+            else:
+                s.next = q
+                s = q
+                q = s.next
+        if not p:
+            s.next = q
+        if not q:
+            s.next = p
+
+        self.head = new_head
+        return self.head
+
+    def print_nth_from_last(self, n: int) -> any:
+        p = self.head
+        q = self.head
+
+        if n > 0:
+            count = 0
+            while q:
+                count += 1
+                if (count >= n):
+                    break
+                q = q.next
+
+            if not q:
+                print(f"{n} > length of LinkedList")
+                return
+
+            while p and q.next:
+                p = p.next
+                q = q.next
+            return p.data
+        else:
+            return None
+
     def preprend(self, data: any) -> None:
         new_node = Node(data)
-
         new_node.next = self.head
         self.head = new_node
 
@@ -93,6 +170,20 @@ class LinkedList:
         while current_node:
             print(current_node.data)
             current_node = current_node.next
+
+    def remove_duplicates(self, ) -> None:
+        cur = self.head
+        prev = None
+        dup_values = dict()
+
+        while cur:
+            if cur.data in dup_values:
+                prev.next = cur.next
+                cur = None
+            else:
+                dup_values[cur.data] = 1
+                prev = cur
+            cur = prev.next
 
     def reverse_iterative(self, ) -> None:
         prev = None
@@ -172,14 +263,3 @@ class LinkedList:
             self.head = curr_1
 
         curr_1.next, curr_2.next = curr_2.next, curr_1.next
-
-
-llist = LinkedList()
-llist.append("A")
-llist.append("B")
-llist.append("C")
-llist.append("D")
-
-llist.reverse_iterative()
-
-llist.print_list()
