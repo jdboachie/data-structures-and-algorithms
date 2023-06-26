@@ -50,7 +50,6 @@ class LinkedList:
             return self.count_occurences_recursive(node.next, key)
 
     def delete_node(self, key: any) -> None:
-
         current_node = self.head
 
         if current_node and current_node.data == key:
@@ -68,7 +67,6 @@ class LinkedList:
             current_node = None
 
     def delete_node_at_pos(self, pos: int) -> None:
-
         if self.head:
             current_node = self.head
             if pos == 0:
@@ -197,7 +195,6 @@ class LinkedList:
         self.head = prev
 
     def reverse_recursive(self, ) -> None:
-
         def _reverse_recursive(cur, prev):
             if not cur:
                 return prev
@@ -220,7 +217,6 @@ class LinkedList:
         self.head = prev
 
     def reverse_recursive(self, ):
-
         def _reverse_recursive(cur, prev):
             if not cur:
                 return prev
@@ -233,7 +229,6 @@ class LinkedList:
         self.head = _reverse_recursive(cur=self.head, prev=None)
 
     def swap_nodes(self, key_1, key_2):
-
         if key_1 == key_2:
             return
 
