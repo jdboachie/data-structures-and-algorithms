@@ -228,6 +228,28 @@ class LinkedList:
 
         self.head = _reverse_recursive(cur=self.head, prev=None)
 
+    def rotate(self, k):
+        if self.head and self.head.next:
+            p = self.head
+            q = self.head
+            prev = None
+            count = 0
+
+            while p and count < k:
+                prev = p
+                p = p.next
+                q = q.next
+                count += 1
+            p = prev
+            while q:
+                prev = q
+                q = q.next
+            q = prev
+
+            q.next = self.head
+            self.head = p.next
+            p.next = None
+
     def swap_nodes(self, key_1, key_2):
         if key_1 == key_2:
             return
@@ -258,3 +280,14 @@ class LinkedList:
             self.head = curr_1
 
         curr_1.next, curr_2.next = curr_2.next, curr_1.next
+
+llist = LinkedList()
+llist.append(1)
+llist.append(2)
+llist.append(3)
+llist.append(4)
+llist.append(5)
+llist.append(6)
+
+llist.rotate(4)
+llist.print_list()
