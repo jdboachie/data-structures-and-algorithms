@@ -94,6 +94,39 @@ class LinkedList:
         new_node.next = prev.next
         prev.next = new_node
 
+    def is_palindrome(self, ) -> None:
+        # STRING METHOD
+        # s = ""
+        # p = self.head
+        # while p:
+        #     s += p.data
+        #     p = p.next
+        # return s == s[::-1]
+
+        # TWO POINTERS METHOD
+        if self.head:
+            p = self.head
+            q = self.head
+            prev = []
+
+            i = 0
+            while q:
+                prev.append(q)
+                q = q.next
+                i += 1
+            q = prev[i-1]
+
+            count = 1
+
+            while count <= i//2 + 1:
+                if prev[-count].data != p.data:
+                    return False
+                p = p.next
+                count += 1
+            return True
+        else:
+            return True
+
     def length(self, node: Node) -> int:
         if node is None:
             return 0
@@ -135,6 +168,19 @@ class LinkedList:
         self.head = new_head
         return self.head
 
+    def move_tail_to_head(self) -> None:
+        if self.head and self.head.next:
+            last = self.head
+            second_to_last = None
+
+            while last.next:
+                second_to_last = last
+                last = last.next
+
+            last.next = self.head
+            second_to_last.next = None
+            self.head = last
+
     def print_nth_from_last(self, n: int) -> any:
         p = self.head
         q = self.head
@@ -158,7 +204,7 @@ class LinkedList:
         else:
             return None
 
-    def preprend(self, data: any) -> None:
+    def prepend(self, data: any) -> None:
         new_node = Node(data)
         new_node.next = self.head
         self.head = new_node
@@ -250,6 +296,29 @@ class LinkedList:
             self.head = p.next
             p.next = None
 
+    def sum_two_lists(self, llist):
+        p = self.head
+        q = llist.head
+        carry = 0
+        result = LinkedList()
+
+        while p or q or carry:
+            sum = carry
+
+            if p:
+                sum += p.data
+                p = p.next
+
+            if q:
+                sum += q.data
+                q = q.next
+
+            carry = sum // 10
+            digit = sum % 10
+            result.append(digit)
+
+        return result
+
     def swap_nodes(self, key_1, key_2):
         if key_1 == key_2:
             return
@@ -280,14 +349,3 @@ class LinkedList:
             self.head = curr_1
 
         curr_1.next, curr_2.next = curr_2.next, curr_1.next
-
-llist = LinkedList()
-llist.append(1)
-llist.append(2)
-llist.append(3)
-llist.append(4)
-llist.append(5)
-llist.append(6)
-
-llist.rotate(4)
-llist.print_list()
