@@ -84,7 +84,7 @@ class DoublyLinkedList:
                     cur.prev = None
                     cur = None
                     return
-                
+
                 # CASE 4:
                 else:
                     prev = cur.prev
@@ -93,6 +93,62 @@ class DoublyLinkedList:
                     cur = None
                     return
             cur = cur.next
+
+    def delete_node(self, node):
+        cur = self.head
+        while cur:
+            if cur == node and cur == self.head:
+                # Case 1:
+                if not cur.next:
+                    cur = None
+                    self.head = None
+                    return
+
+                # Case 2:
+                else:
+                    nxt = cur.next
+                    cur.next = None
+                    nxt.prev = None
+                    cur = None
+                    self.head = nxt
+                    return
+
+            elif cur == node:
+                # Case 3:
+                if cur.next:
+                    nxt = cur.next
+                    prev = cur.prev
+                    prev.next = nxt
+                    nxt.prev = prev
+                    cur.next = None
+                    cur.prev = None
+                    cur = None
+                    return
+
+                # Case 4:
+                else:
+                    prev = cur.prev
+                    prev.next = None
+                    cur.prev = None
+                    cur = None
+                    return
+            cur = cur.next
+
+    def pairs_with_sums(self, sum_val):
+        cur = self.head
+        pairs = list()
+        p = self.head
+        q = None
+
+        while p:
+            q = p.next
+            while q:
+                if (p.data + q.data) == sum_val:
+                    pairs.append(f"({str(p.data)},{str(q.data)})")
+                q = q.next
+            p = p.next
+
+        return pairs
 
     def prepend(self, data: any) -> None:
         node = Node(data)
@@ -109,6 +165,19 @@ class DoublyLinkedList:
             print(cur.data)
             cur = cur.next
 
+    def remove_duplicates(self):
+        cur = self.head
+        seen = dict()
+
+        while cur:
+            if cur.data not in seen:
+                seen[cur.data] = 1
+                cur = cur.next
+            else:
+                nxt = cur.next
+                self.delete_node(cur)
+                cur = nxt
+
     def reverse(self):
         temp = None
         cur = self.head
@@ -122,9 +191,14 @@ class DoublyLinkedList:
 
 
 dllist = DoublyLinkedList()
-dllist.append(1)
-dllist.append(2)
-dllist.append(3)
+dllist.append(8)
 dllist.append(4)
-dllist.reverse()
-dllist.print_list()
+dllist.append(4)
+dllist.append(6)
+dllist.append(4)
+dllist.append(8)
+dllist.append(4)
+dllist.append(10)
+dllist.append(12)
+dllist.append(12)
+print(dllist.pairs_with_sums(12))
